@@ -1451,4 +1451,37 @@ public class SurvivorshipManagerTest {
         Assert.assertEquals("The default value of CharSetName should be empty", "GBK", manager.getCharSetName());
     }
 
+    @Test
+    public void testRunSessionWithJavaMostCommon2Longest2MostRecent() {
+
+        manager = new SurvivorshipManager(SampleData.RULE_PATH,
+                SampleDataConflictMostCommon2Longest2MostRecent.PKG_NAME_CONFLICT_FRE_LONG_RECENT);
+
+        for (String str : SampleDataConflict.COLUMNS_CONFLICT.keySet()) {
+            Column column = new Column(str, SampleDataConflict.COLUMNS_CONFLICT.get(str));
+            if (column.getName().equals("firstName")) { //$NON-NLS-1$
+                for (ConflictRuleDefinition element : SampleDataConflictMostCommon2Longest2MostRecent.RULES_CONFLICT_RESOLVE) {
+                    column.getConflictResolveList().add(element);
+                }
+            }
+            manager.getColumnList().add(column);
+        }
+        for (RuleDefinition element : SampleDataConflictMostCommon2Longest2MostRecent.RULES_CONFLICT_FRE_LONG_RECENT) {
+            manager.addRuleDefinition(element);
+        }
+
+        manager.initKnowledgeBase();
+        manager.checkConflictRuleValid();
+        manager.runSessionWithJava(getTableValue("/org.talend.survivorship.conflict/conflicts.csv", 11, 9, 1)); //$NON-NLS-1$
+
+        // 5. Retrieve results
+        HashSet<String> conflictsOfSurvivor = manager.getConflictsOfSurvivor();
+        assertEquals("The size of conflictsOfSurvivor should be 0", 0, conflictsOfSurvivor.size()); //$NON-NLS-1$
+        Map<String, Object> survivorMap = manager.getSurvivorMap();
+        assertTrue("The SurvivorMap should not be null", survivorMap != null); //$NON-NLS-1$
+        Object firstNameObj = survivorMap.get("firstName"); //$NON-NLS-1$
+        String resultStr = (String) firstNameObj;
+        assertEquals("The resultStr should be Tony", "Tony", //$NON-NLS-1$ //$NON-NLS-2$
+                resultStr);
+    }
 }

@@ -35,6 +35,8 @@ import org.talend.dataquality.standardization.index.SynonymIndexSearcher.Synonym
 import org.talend.dataquality.standardization.record.OutputRecord;
 import org.talend.dataquality.standardization.record.SynonymRecordSearcher;
 
+import junit.framework.Assert;
+
 /**
  * DOC scorreia class global comment. Detailled comment
  */
@@ -244,7 +246,19 @@ public class SynonymIndexSearcherTest {
         doAssertEquals("unexpected synonym count!", 2, search.getSynonymCount("IAIDQ"));
         search.close();
     }
-
+    
+    @Test
+    public void testGetMaxDoc() {
+        SynonymIndexSearcher search = new SynonymIndexSearcher();
+        try {
+            search.openIndexInFS(SynonymIndexBuilderTest.path);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        doAssertEquals("the unexpect max document number of the index", 7, search.getMaxDoc());
+        search.close();
+    }
+     
     /**
      * Test method for {@link SynonymIndexSearcher#getDocument(int)}.
      */
@@ -341,7 +355,7 @@ public class SynonymIndexSearcherTest {
 
     @Test
     public void testSearchDocumentBySynonymWithNewOptions() throws IOException {
-        final String path = "data/quick_brown_dog_index";
+        final String path ="data/quick_brown_dog_index";
         synIdxBuilderTest.setUp();
         SynonymIndexBuilder synonymIdxBuilder = new SynonymIndexBuilder();
         synonymIdxBuilder.deleteIndexFromFS(path);
@@ -368,6 +382,7 @@ public class SynonymIndexSearcherTest {
                 TopDocs docs = searcher.searchDocumentBySynonym(key);
                 LinkedHashMap<String, Integer[]> expected = ExpectResults4NewOptions.get(mode.toString());
                 doAssertEquals("unexpected totalHits size!", expected.get(key).length, docs.totalHits);
+        
                 for (int i = 0; i < docs.totalHits; i++) {
                     Document document = searcher.getDocument(docs.scoreDocs[i].doc);
                     String[] syns = document.getValues(SynonymIndexSearcher.F_SYN);
@@ -380,6 +395,7 @@ public class SynonymIndexSearcherTest {
         }
 
     }
+    
 
     public static final String[][] synonyms4newoptions = { { "Dulux Trade", "ABC DEF" }, { "GHI JKL", "Dulux Trade" },
             { "Dulux Trade Red Paint 5L", "DEF ABC" }, { "Trade", "PPP" }, { "Trade Dulux", "PPP" },
