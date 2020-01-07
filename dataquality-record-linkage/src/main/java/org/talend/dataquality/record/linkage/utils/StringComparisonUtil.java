@@ -14,6 +14,8 @@ package org.talend.dataquality.record.linkage.utils;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author scorreia
  * 
@@ -77,7 +79,6 @@ public final class StringComparisonUtil implements Serializable {
         // create a return buffer of characters
         final StringBuilder returnCommons = new StringBuilder();
         // create a copy of string2 for processing
-        final StringBuilder copy = new StringBuilder(string2);
         int[] cpArray1 = stringToCodePointArray(string1);
         int[] cpArray2 = stringToCodePointArray(string2);
         // iterate over string1
@@ -138,6 +139,9 @@ public final class StringComparisonUtil implements Serializable {
      * @return
      */
     private static int[] stringToCodePointArray(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return new int[0];
+        }
         char[] ach = str.toCharArray(); // a char array copied from str
         int len = ach.length; // the length of ach
         int[] acp = new int[Character.codePointCount(ach, 0, len)];
