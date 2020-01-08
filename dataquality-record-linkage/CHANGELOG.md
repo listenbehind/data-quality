@@ -14,7 +14,7 @@ N/A
 ### Deprecated
 N/A
 ### Fixed
-N/A
+- fix(TDQ-17851): improve the performance and support surrogate pair
 ### Security
 N/A
 
