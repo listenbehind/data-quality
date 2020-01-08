@@ -25,7 +25,7 @@ public class StatisticsFrequencyTest {
     @Before
     public void setUp() throws Exception {
         stats = new DataTypeFrequencyStatistics();
-        for (int i = 1; i <= 10 ; i++) {
+        for (int i = 1; i <= 10; i++) {
             for (int j = 0; j < i; j++) {
                 stats.add(Integer.toString(i));
             }
