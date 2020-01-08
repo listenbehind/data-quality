@@ -76,7 +76,6 @@ public final class StringComparisonUtil implements Serializable {
     public static StringBuilder getCommonCharacters(final String string1, final String string2, final int distanceSep) {
         // create a return buffer of characters
         final StringBuilder returnCommons = new StringBuilder();
-        // create a copy of string2 for processing
         int[] cpArray1 = stringToCodePointArray(string1);
         int[] cpArray2 = stringToCodePointArray(string2);
         // iterate over string1
@@ -141,14 +140,14 @@ public final class StringComparisonUtil implements Serializable {
             return new int[0];
         }
         char[] charArray = str.toCharArray(); // a char array copied from str
-        int length = charArray.length; // the length of ach
-        int[] acp = new int[Character.codePointCount(charArray, 0, length)];
-        int index = 0; // an index for acp
+        int length = charArray.length; // the length of charArray
+        int[] newCharArray = new int[Character.codePointCount(charArray, 0, length)];
+        int index = 0; // an index for newCharArray
 
         for (int i = 0, cp; i < length; i += Character.charCount(cp)) {
             cp = Character.codePointAt(charArray, i);
-            acp[index++] = cp;
+            newCharArray[index++] = cp;
         }
-        return acp;
+        return newCharArray;
     }
 }
