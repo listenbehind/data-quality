@@ -57,9 +57,6 @@ public final class StringComparisonUtil implements Serializable {
             if (cpArray1[i] == cpArray2[i]) {
                 diff++;
             }
-            // if (str1.charAt(i) == str2.charAt(i)) {
-            // diff++;
-            // }
         }
         return diff;
     }
@@ -78,12 +75,11 @@ public final class StringComparisonUtil implements Serializable {
     public static StringBuilder getCommonCharacters(final String string1, final String string2, final int distanceSep) {
         // create a return buffer of characters
         final StringBuilder returnCommons = new StringBuilder();
-        // create a copy of string2 for processing
         int[] cpArray1 = stringToCodePointArray(string1);
         int[] cpArray2 = stringToCodePointArray(string2);
         // iterate over string1
         for (int i = 0; i < cpArray1.length; i++) {
-            final int ch = cpArray1[i];
+            final int codePoint = cpArray1[i];
             // set boolean for quick loop exit if found
             boolean foundIt = false;
             // compare char with range of characters to either side
@@ -91,10 +87,10 @@ public final class StringComparisonUtil implements Serializable {
             // against second string and it now gives the same results
             for (int j = Math.max(0, i - distanceSep); !foundIt && j < Math.min(i + distanceSep + 1, cpArray2.length); j++) {
                 // check if found
-                if (cpArray2[j] == ch) {
+                if (cpArray2[j] == codePoint) {
                     foundIt = true;
                     // append character found
-                    returnCommons.append(String.valueOf(Character.toChars(ch)));
+                    returnCommons.append(String.valueOf(Character.toChars(codePoint)));
                     // replace it with -1 so that it will false when compare later
                     cpArray2[j] = -1;
 
@@ -120,16 +116,16 @@ public final class StringComparisonUtil implements Serializable {
         int[] cpArray2 = stringToCodePointArray(string2);
         int lengthToMatch = Math.min(cpArray1.length, cpArray2.length);
 
-        final int n = Math.min(MINPREFIXTESTLENGTH, lengthToMatch);
+        final int min = Math.min(MINPREFIXTESTLENGTH, lengthToMatch);
         // check for prefix similarity of length n
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < min; i++) {
             // check the prefix is the same so far
             if (cpArray1[i] != cpArray2[i]) {
                 // not the same so return as far as got
                 return i;
             }
         }
-        return n; // first n characters are the same
+        return min; // first n characters are the same
     }
 
     //
@@ -143,15 +139,15 @@ public final class StringComparisonUtil implements Serializable {
         if (StringUtils.isEmpty(str)) {
             return new int[0];
         }
-        char[] ach = str.toCharArray(); // a char array copied from str
-        int len = ach.length; // the length of ach
-        int[] acp = new int[Character.codePointCount(ach, 0, len)];
-        int j = 0; // an index for acp
+        char[] charArray = str.toCharArray(); // a char array copied from str
+        int length = charArray.length; // the length of charArray
+        int[] newCharArray = new int[Character.codePointCount(charArray, 0, length)];
+        int index = 0; // an index for charArray
 
-        for (int i = 0, cp; i < len; i += Character.charCount(cp)) {
-            cp = Character.codePointAt(ach, i);
-            acp[j++] = cp;
+        for (int i = 0, cp; i < length; i += Character.charCount(cp)) {
+            cp = Character.codePointAt(charArray, i);
+            newCharArray[index++] = cp;
         }
-        return acp;
+        return newCharArray;
     }
 }
