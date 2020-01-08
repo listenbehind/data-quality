@@ -35,6 +35,13 @@ public abstract class AbstractFrequencyStatistics {
         value2freq.put(value, freq + 1);
     }
 
+    public Map<String, Long> getPage(int page, int pageSize) {
+        int startIndex = page * pageSize;
+        return value2freq.entrySet().stream().sorted(Map.Entry.<String, Long> comparingByValue().reversed())
+                .skip(startIndex).limit(pageSize)
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (v1, v2) -> v2, LinkedHashMap::new));
+    }
+
     public Map<String, Long> getTopK(int topk) {
         return value2freq.entrySet().stream().sorted(Map.Entry.<String, Long> comparingByValue().reversed()).limit(topk)
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (v1, v2) -> v2, LinkedHashMap::new));
