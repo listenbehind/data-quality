@@ -89,12 +89,14 @@ public final class StringComparisonUtil implements Serializable {
             // compare char with range of characters to either side
             // MOD scorreia 2010-01-25 for identical strings, this method should return the full input string. I checked
             // against second string and it now gives the same results
-            for (int j = Math.max(0, i - distanceSep); !foundIt
-                    && j < Math.min(i + distanceSep + 1, cpArray2.length); j++) {
+            for (int j = Math.max(0, i - distanceSep); !foundIt && j < Math.min(i + distanceSep + 1, cpArray2.length); j++) {
                 // check if found
                 if (cpArray2[j] == ch) {
                     foundIt = true;
+                    // append character found
                     returnCommons.append(String.valueOf(Character.toChars(ch)));
+                    // replace it with -1 so that it will false when compare later
+                    cpArray2[j] = -1;
 
                 }
 
@@ -102,7 +104,6 @@ public final class StringComparisonUtil implements Serializable {
         }
         return returnCommons;
     }
-
 
     /**
      * gets the prefix length found of common characters at the begining of the strings.
