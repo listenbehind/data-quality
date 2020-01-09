@@ -34,8 +34,11 @@ public class StatisticsFrequencyTest {
 
     @Test
     public void testGetPage() {
+        // when
         Map<String, Long> page0 = stats.getPage(0, 2);
         Map<String, Long> page2 = stats.getPage(2, 2);
+
+        // expect
         Assert.assertEquals(2, page0.keySet().size());
         Assert.assertEquals(Long.valueOf(10), page0.get("10"));
         Assert.assertEquals(Long.valueOf(9), page0.get("9"));
@@ -51,8 +54,17 @@ public class StatisticsFrequencyTest {
     }
 
     @Test
+    public void testGetTotal() {
+        // expect
+        Assert.assertEquals(10, stats.getTotal());
+    }
+
+    @Test
     public void getTopK() {
+        // when
         Map<String, Long> results = stats.getTopK(3);
+
+        // expect
         Assert.assertEquals(3, results.keySet().size());
         Assert.assertEquals(Long.valueOf(10), results.get("10"));
         Assert.assertEquals(Long.valueOf(9), results.get("9"));
