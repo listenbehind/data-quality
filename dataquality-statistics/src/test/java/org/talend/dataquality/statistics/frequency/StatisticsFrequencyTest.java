@@ -71,4 +71,12 @@ public class StatisticsFrequencyTest {
         Assert.assertEquals(Long.valueOf(8), results.get("8"));
     }
 
+    @Test
+    public void getAll() {
+        // when
+        Map<String, Long> results = stats.getAll();
+
+        // expect
+        Assert.assertEquals(10, results.keySet().size());
+    }
 }
