@@ -8,11 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - chore(TDQ-17710): Adopt the "Keep a Changelog" format for changelogs
 ### Changed
-- chore(TDQ-17788): cancel the deprecation of setStoreInvalidValues in Quality Analyzer implementations
+- chore(TDQ-17788): cancel the deprecation of setStoreInvalidValues in QualityAnalyzer implementations
 ### Removed
 - chore(TDQ-17788): remove deprecated classes EastAsianCharPatternRecognizer and DateTimePatternManager
 - chore(TDQ-17788): remove a deprecated constructor of ValueQualityAnalyzer
-- chore(TDQ-17788): remove deprecated methods in some classes
+- chore(TDQ-17788): remove deprecated methods in class SystemDateTimePatternManager and TypeInferenceUtils
 ### Deprecated
 N/A
 ### Fixed
